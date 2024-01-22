@@ -13,12 +13,16 @@
         android:theme="@style/Theme.ContactList"
         tools:targetApi="31">
         <activity
+            android:name=".DatePickerDialog"
+            android:exported="false"
+            android:theme="@style/Theme.ContactList" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.ContactList" />
         <activity
-            android:name=".MapActivty"
+            android:name=".MapActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

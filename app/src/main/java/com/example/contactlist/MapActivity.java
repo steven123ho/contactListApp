@@ -7,41 +7,35 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class SettingsActivity extends AppCompatActivity {
-
+public class MapActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_map_activty);
 
         initListButton();
     }
 
-
-
     //Navigaion to maps and to settings
     private void initListButton() {
         ImageButton contactButton = findViewById(R.id.contactBtn);
-        ImageButton mapButton = findViewById(R.id.mapBtn);
+        ImageButton settingsButton = findViewById(R.id.settingsBtn);
         contactButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                Intent intent = new Intent(MapActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clears the stack trace
                 startActivity(intent);
             }
         });
 
-        mapButton.setOnClickListener(new View.OnClickListener() {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, MapActivity.class);
+                Intent intent = new Intent(MapActivity.this, SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clears the stack trace
                 startActivity(intent);
             }
         });
 
     }
-
-
-
 
 }

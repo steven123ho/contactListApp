@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private void initListButton() {
         ImageButton mapButton = findViewById(R.id.mapBtn);
         ImageButton settingsButton = findViewById(R.id.settingsBtn);
+        Button saveBtn = findViewById(R.id.saveBtn);
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
@@ -49,6 +50,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 startActivity(intent);
             }
         });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clears the stack trace
+                startActivity(intent);
+            }
+        });
+
 
     }
 

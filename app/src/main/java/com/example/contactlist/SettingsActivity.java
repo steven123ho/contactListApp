@@ -79,9 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             descendingRadio.setChecked(true);
         }
-
-
-
     }
 
 

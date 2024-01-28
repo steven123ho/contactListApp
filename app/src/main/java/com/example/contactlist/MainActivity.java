@@ -1,7 +1,7 @@
 package com.example.contactlist;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import android.view.inputmethod.InputMethodManager;
 import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import java.util.Calendar;
 
+
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.SaveDateListener {
 
-    //in the book this is seperated to currentContact = new Contact();
+    //in the book this is separated to currentContact = new Contact();
     private Contact currentContact = new Contact();
 
 
@@ -37,11 +39,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
 
-    //Navigaion to maps and to settings
+    //Navigation to maps and to settings
     private void initListButton() {
         ImageButton mapButton = findViewById(R.id.mapBtn);
         ImageButton settingsButton = findViewById(R.id.settingsBtn);
-        Button saveBtn = findViewById(R.id.saveBtn);
+
         mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
@@ -97,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if (enabled) {
             nameInput.requestFocus();
+        } else {
+            ScrollView s = findViewById(R.id.scrollView);
+            s.fullScroll(ScrollView.FOCUS_UP);
         }
     }
 
@@ -261,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             @Override
             public void onClick(View v) {
                 boolean wasSuccessful;
+                hideKeyboard();
                 ContactDataSource ds = new ContactDataSource(MainActivity.this);
                 try {
 
@@ -268,6 +274,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                     if(currentContact.getContactID() == -1) {
                         wasSuccessful = ds.insertContact(currentContact);
+                        if (wasSuccessful) {
+                            int newId = ds.getLastContactID();
+                            currentContact.setContactID(newId);
+                        }
                     } else {
                         wasSuccessful = ds.updateContact(currentContact);
                     }
@@ -286,6 +296,39 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
 
     }
+
+    private void hideKeyboard () {
+        InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.this.INPUT_METHOD_SERVICE);
+
+        EditText nameInput = findViewById(R.id.nameInput);
+        imm.hideSoftInputFromWindow(nameInput.getWindowToken(), 0);
+
+        EditText addressInput = findViewById(R.id.addressInput);
+        imm.hideSoftInputFromWindow(addressInput.getWindowToken(), 0);
+
+        EditText stateInput = findViewById(R.id.stateInput);
+        imm.hideSoftInputFromWindow(stateInput.getWindowToken(), 0);
+
+        EditText cityInput = findViewById(R.id.cityInput);
+        imm.hideSoftInputFromWindow(cityInput.getWindowToken(), 0);
+
+        EditText zipCodeInput = findViewById(R.id.zipInput);
+        imm.hideSoftInputFromWindow(zipCodeInput.getWindowToken(), 0);
+
+        EditText homeInput = findViewById(R.id.homeInput);
+        imm.hideSoftInputFromWindow(homeInput.getWindowToken(), 0);
+
+        EditText cellInput = findViewById(R.id.cellInput);
+        imm.hideSoftInputFromWindow(cellInput.getWindowToken(), 0);
+
+        EditText emailInput = findViewById(R.id.emailInput);
+        imm.hideSoftInputFromWindow(emailInput.getWindowToken(), 0);
+    }
+
+
+
+
+
 }
 
 

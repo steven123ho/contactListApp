@@ -41,7 +41,6 @@ public class ContactDataSource {
             initialValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
 
             didSucceed = database.insert("contact", null, initialValues) > 0;
-
         } catch (Exception e){
             // Do nothing, will return false if there is an exemption
         }

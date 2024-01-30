@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etStreetAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etStreetAddress.getText().toString());
+                currentContact.setStreetAddress(etStreetAddress.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etCity.getText().toString());
+                currentContact.setCity(etCity.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etState.getText().toString());
+                currentContact.setState(etState.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etZipCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etZipCode.getText().toString());
+                currentContact.setZipCode(etZipCode.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etHomePhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etHomePhone.getText().toString());
+                currentContact.setPhoneNumber(etHomePhone.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etCellPhone.getText().toString());
+                currentContact.setCellNumber(etCellPhone.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         etEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                currentContact.setContactName(etEmail.getText().toString());
+                currentContact.setEmail(etEmail.getText().toString());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int before, int count) {

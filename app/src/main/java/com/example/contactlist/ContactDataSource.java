@@ -65,7 +65,7 @@ public class ContactDataSource {
             updateValues.put("email", c.getEmail());
             updateValues.put("birthday", String.valueOf(c.getBirthday().getTimeInMillis()));
 
-            didSucceed = database.update("contact", updateValues, " id=" + rowId, null) > 0;
+            didSucceed = database.update("contact", updateValues, "_id=" + rowId, null) > 0;
 
         } catch (Exception e) {
             // Do nothing, will return false if there is an exemption

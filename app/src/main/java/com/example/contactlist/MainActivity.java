@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
 
         final EditText etState = findViewById(R.id.stateInput);
-        etCity.addTextChangedListener(new TextWatcher() {
+        etState.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 currentContact.setState(etState.getText().toString());
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
 
         final EditText etCellPhone = findViewById(R.id.cellInput);
-        etCity.addTextChangedListener(new TextWatcher() {
+        etCellPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 currentContact.setCellNumber(etCellPhone.getText().toString());

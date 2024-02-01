@@ -17,11 +17,9 @@
         android:contentDescription="Map Button"
         android:src="@android:drawable/ic_dialog_map"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/settingsBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/contactBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.994" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"/>
 
     <ImageButton
         android:id="@+id/contactBtn"
@@ -32,10 +30,8 @@
         android:src="@android:drawable/stat_sys_phone_call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mapBtn"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.994" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
     <ImageButton
         android:id="@+id/settingsBtn"
@@ -47,10 +43,9 @@
         android:src="@android:drawable/ic_menu_manage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/mapBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.994" />
+        app:layout_constraintTop_toTopOf="@+id/mapBtn"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -97,13 +92,12 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="409dp"
-        android:layout_height="595dp"
-        android:layout_marginBottom="72dp"
-        app:layout_constraintBottom_toBottomOf="@+id/mapBtn"
+        android:layout_width="412dp"
+        android:layout_height="600dp"
+        app:layout_constraintBottom_toTopOf="@+id/mapBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toBottomOf="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -205,7 +199,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="101dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -291,7 +285,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="129dp"
+                android:layout_height="117dp"
                 android:orientation="horizontal">
 
                 <TextView

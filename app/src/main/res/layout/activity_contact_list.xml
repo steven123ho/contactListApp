@@ -86,13 +86,12 @@
         android:layout_height="45dp"
         android:background="#9E9E9E"
         android:orientation="horizontal"
-        android:paddingStart="18dp"
+        android:paddingStart="32dp"
         android:paddingEnd="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <Switch
             android:id="@+id/deleteSwitch"

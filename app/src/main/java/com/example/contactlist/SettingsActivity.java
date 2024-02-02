@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         ImageButton mapButton = findViewById(R.id.mapBtn);
         contactButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, activity_contact_list.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clears the stack trace
                 startActivity(intent);
             }

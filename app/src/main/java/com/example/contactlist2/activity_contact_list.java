@@ -26,7 +26,6 @@ public class activity_contact_list extends AppCompatActivity {
         initListsButton();
     }
 
-
     @Override
     public void onResume() {
         super.onResume();

@@ -50,7 +50,6 @@ public class ContactAdapter extends RecyclerView.Adapter {
     public ContactAdapter (ArrayList<Contact> arrayList, Context context) {
         contactData = arrayList;
         parentContext = context;
-
     }
 
     public void setmOnClickListener(View.OnClickListener itemClickListener) {

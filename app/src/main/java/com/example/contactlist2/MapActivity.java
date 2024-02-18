@@ -12,6 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,6 +51,12 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     final int PERMISSION_REQUEST_LOCATION = 101;
     GoogleMap gMap;
+
+    //Variables for compass
+    SensorManager sensorManager;
+    Sensor accelerometer;
+    Sensor magnetometer;
+    TextView textDirection;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
     LocationCallback locationCallback;
@@ -74,6 +85,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //added a certain dependency not mentioned in book to make this line work
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Compass Monitoring
+        sensorManager = (SensorManager) getSystemService (Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        if (accelerometer != null && magnetometer != null) {
+            sensorManager.registerListener(mySensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+            sensorManager.registerListener(mySensorEventListener, magnetometer, SensorManager.SENSOR_DELAY_FASTEST);
+
+        } else {
+            Toast.makeText(this, "Sensor not found", Toast.LENGTH_LONG).show();
+        }
+        textDirection = (TextView) findViewById(R.id.textHeading);
+
+
+
 
         createLocationRequest();
         createLocationCallback();
@@ -268,7 +296,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-
     private void initMapTypeButtons() {
         RadioGroup rgMapType = findViewById(R.id.radioGroupMapType);
         rgMapType.setOnCheckedChangeListener (new RadioGroup.OnCheckedChangeListener() {
@@ -284,83 +311,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-/*
-    private void  startLocationUpdates() {
-        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getBaseContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+    //Sensors for compass
+    private SensorEventListener mySensorEventListener = new SensorEventListener() {
 
-        try {
-            locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
-            gpsListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    TextView txtLatitude = (TextView) findViewById(R.id.latitudeResult);
-                    TextView txtLongitude = (TextView) findViewById(R.id.longitudeResult);
-                    TextView txtAccuracy = (TextView) findViewById(R.id.accuracyResult);
-                    txtLatitude.setText(String.valueOf(location.getLatitude()));
-                    txtLongitude.setText(String.valueOf(location.getLongitude()));
-                    txtAccuracy.setText(String.valueOf(location.getAccuracy()));
+        public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+        float[] accelerometerValues;
+        float[] magneticValues;
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                accelerometerValues = event.values;
+            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+                magneticValues = event.values;
+            if (accelerometerValues != null && magneticValues != null) {
+                float R[] = new float [9];
+                float I[] = new float[9];
+                boolean success = SensorManager.getRotationMatrix(R, I, accelerometerValues, magneticValues);
 
-                    if (isBetterLocation(location)) {
-                        currentBestLocation = location;
-                        //display in location in textViews
-                    } //no else block; if not better just ignores
-                }
+                if (success) {
+                    float orientation[] = new float[3];
+                    SensorManager.getOrientation(R, orientation);
 
-                public void onStatusChanged (String provider, int status, Bundle extras) {}
-                public void onProviderEnabled(String provider) {}
-                public void onProviderDisabled(String provider) {}
-            };
-
-            networkListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    TextView txtLatitude = (TextView) findViewById(R.id.latitudeResult);
-                    TextView txtLongitude = (TextView) findViewById(R.id.longitudeResult);
-                    TextView txtAccuracy = (TextView) findViewById(R.id.accuracyResult);
-                    txtLatitude.setText(String.valueOf(location.getLatitude()));
-                    txtLongitude.setText(String.valueOf(location.getLongitude()));
-                    txtAccuracy.setText(String.valueOf(location.getAccuracy()));
-
-
-                    if (isBetterLocation(location)) {
-                        currentBestLocation = location;
-                        //display in location in textViews
-                    } //no else block; if not better just ignores
-                }
-
-                public void onStatusChanged (String provider, int status, Bundle extras) {}
-                public void onProviderEnabled(String provider) {}
-                public void onProviderDisabled(String provider) {}
-            };
-
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, networkListener);
-
-        } catch (Exception e){
-            Toast.makeText(getBaseContext(), "Error, Location not available", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions [], int[] grantResults) {
-        //super call was required by IDE but not in book
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case PERMISSION_REQUEST_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startLocationUpdates();
-                } else {
-                    Toast.makeText(MapActivity.this, "MyContactList will not locate your contacts.", Toast.LENGTH_LONG).show();
+                    float azimut = (float) Math.toDegrees(orientation[0]);
+                    if (azimut < 0.0f) { azimut+=360.0f; }
+                    String direction;
+                    if (azimut >= 315 || azimut < 45) { direction = "N"; }
+                    else if (azimut >= 225 && azimut < 315) { direction = "W"; }
+                    else if (azimut >= 135 && azimut < 225) { direction = "S"; }
+                    else { direction = "E"; }
+                    textDirection.setText(direction);
                 }
             }
         }
-    }
-*/
+    };
 
 
 }

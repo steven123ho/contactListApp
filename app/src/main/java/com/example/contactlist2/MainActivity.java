@@ -408,6 +408,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
        editEmail.setText(currentContact.getEmail());
        birthday.setText(DateFormat.format("MM/dd/yyyy", currentContact.getBirthday().getTimeInMillis()).toString());
 
+       ImageButton picture = (ImageButton) findViewById(R.id.imageContact);
+       if (currentContact.getPicture() != null) {
+           picture.setImageBitmap(currentContact.getPicture());
+       } else {
+           picture.setImageResource(R.drawable.ic_launcher_foreground);
+       }
+
     }
 
 
@@ -530,6 +537,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
